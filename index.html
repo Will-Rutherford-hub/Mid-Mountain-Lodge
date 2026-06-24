@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mid Mountain Lodge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Barlow+Condensed:wght@300;400;600;700;800&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --cream: #d5d2be;
+  --tan: #caa375;
+  --amber: #bf752b;
+  --grey: #dfdfdf;
+  --dark: #1a1a1a;
+  --white: #ffffff;
+}
+
+html { background: #111; }
+body {
+  font-family: 'Barlow', sans-serif;
+  background: #111;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── PHONE FRAME ── */
+.frame {
+  width: 393px;
+  height: 852px;
+  background: var(--dark);
+  border-radius: 52px;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    0 0 0 2px #3a3a3a,
+    0 0 0 5px #1e1e1e,
+    0 60px 120px rgba(0,0,0,.9),
+    inset 0 0 0 1px #444;
+  flex-shrink: 0;
+}
+
+/* Status bar */
+.status-bar {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px 0;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+.status-time { font-size: 15px; font-weight: 600; color: white; letter-spacing: -.3px; }
+.status-icons { display: flex; gap: 6px; align-items: center; }
+
+/* Dynamic island */
+.island {
+  position: absolute;
+  top: 12px; left: 50%;
+  transform: translateX(-50%);
+  width: 118px; height: 34px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 200;
+}
+
+/* ── SCREENS ── */
+.screen {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .28s ease;
+  overflow: hidden;
+  background: var(--dark);
+}
+.screen.active { opacity: 1; pointer-events: all; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 84px;
+  background: var(--cream);
+  border-radius: 28px 28px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px 18px;
+  z-index: 50;
+}
+.nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 14px;
+  transition: transform .15s;
+}
+.nav-btn:active { transform: scale(.9); }
+.nav-icon {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s, border-color .2s;
+}
+.nav-btn.active .nav-icon { background: var(--dark); }
+.nav-btn svg { stroke: var(--dark); fill: none; width: 18px; height: 18px; stroke-width: 1.5; }
+.nav-btn.active svg { stroke: var(--cream); }
+.nav-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .8px;
+  color: var(--dark);
+  text-transform: uppercase;
+}
+
+/* ── BACK BTN ── */
+.back-btn {
+  position: absolute;
+  top: 60px; left: 20px;
+  z-index: 60;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.4);
+  backdrop-filter: blur(8px);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.back-btn:active { transform: scale(.9); }
+.back-btn svg { stroke: white; fill: none; stroke-width: 2; width: 18px; height: 18px; }
+
+/* ─────────────────────────────────
+   LOGO SVG MARK
+───────────────────────────────── */
+.logo-mark { fill: currentColor; }
+
+/* ─────────────────────────────────
+   SCREEN 0: SPLASH
+───────────────────────────────── */
+#screen-splash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+.splash-logo { width: 230px; margin-bottom: 28px; animation: fadeUp .7s ease both; }
+.splash-logo svg { width: 100%; height: auto; display: block; }
+.splash-rule { width: 36px; height: 1px; background: #2e2e2e; margin: 0 0 28px; animation: fadeUp .7s .18s ease both; }
+.splash-features { display: flex; gap: 36px; animation: fadeUp .7s .24s ease both; }
+.feat { display: flex; flex-direction: column; align-items: center; gap: 7px; }
+.feat svg { stroke: var(--tan); fill: none; width: 22px; height: 22px; stroke-width: 1.5; }
+.feat span { font-size: 9px; letter-spacing: 1.5px; color: #555; text-transform: uppercase; font-weight: 600; }
+.splash-cta {
+  margin-top: 40px;
+  padding: 18px 56px;
+  background: var(--amber);
+  color: white;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 28px rgba(191,117,43,.4);
+  animation: fadeUp .7s .4s ease both;
+  transition: transform .15s, box-shadow .2s;
+}
+.splash-cta:active { transform: scale(.97); box-shadow: 0 4px 14px rgba(191,117,43,.3); }
+
+/* ─────────────────────────────────
+   SCREEN 1: SEARCH
+───────────────────────────────── */
+.search-hero {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 52%;
+  background:
+    linear-gradient(180deg, rgba(10,8,5,.25) 0%, rgba(8,6,3,.6) 100%),
+    url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&auto=format&fit=crop') center/cover no-repeat,
+    #1e1208;
+}
+.search-hero-brand {
+  position: absolute;
+  bottom: 28px; left: 0; right: 0;
+  text-align: center;
+}
+.shb-main {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: 10px;
+  color: white;
+  text-transform: uppercase;
+}
+.shb-sub {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 7px;
+  color: rgba(255,255,255,.65);
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+.search-panel {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  top: 44%;
+  background: var(--cream);
+  border-radius: 32px 32px 0 0;
+  padding: 26px 22px 100px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.search-panel::-webkit-scrollbar { display: none; }
+.search-head-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+.search-heading { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 34px; color: var(--dark); text-transform: uppercase; letter-spacing: 1px; line-height: 1; }
+.loc-icon { width: 40px; height: 40px; background: var(--amber); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 4px; }
+.loc-icon svg { fill: white; width: 18px; height: 18px; }
+.search-desc { font-size: 13px; color: #7a7a6a; line-height: 1.55; margin-bottom: 22px; }
+.form-g { margin-bottom: 15px; }
+.form-row { display: flex; gap: 11px; }
+.form-row .form-g { flex: 1; }
+.flabel { font-size: 10px; font-weight: 600; letter-spacing: 1px; color: #8a806e; text-transform: uppercase; margin-bottom: 7px; display: block; }
+.finput {
+  width: 100%;
+  padding: 13px 15px;
+  background: rgba(255,255,255,.72);
+  border: 1.5px solid rgba(255,255,255,.85);
+  border-radius: 13px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  color: var(--dark);
+  outline: none;
+  transition: border-color .2s;
+}
+.finput::placeholder { color: #b0a898; }
+.finput:focus { border-color: var(--tan); background: rgba(255,255,255,.9); }
+.finput-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%238a806e' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+  cursor: pointer;
+}
+.counter-wrap {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,.72);
+  border: 1.5px solid rgba(255,255,255,.85);
+  border-radius: 13px;
+  padding: 9px 12px;
+}
+.cbtn {
+  width: 32px; height: 32px;
+  background: none;
+  border: 1.5px solid #cdc5b8;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--dark);
+  line-height: 0.8;
+  font-weight: 300;
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.cbtn:active { background: rgba(0,0,0,.07); }
+.cval { flex: 1; text-align: center; font-size: 16px; font-weight: 500; color: var(--dark); }
+.search-submit {
+  width: 100%;
+  padding: 18px;
+  background: var(--dark);
+  color: white;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: transform .15s, opacity .2s;
+}
+.search-submit:active { transform: scale(.98); opacity: .9; }
+
+/* ─────────────────────────────────
+   SCREEN 2: RESULTS
+───────────────────────────────── */
+.results-hdr {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  padding: 58px 22px 14px;
+  background: var(--dark);
+  z-index: 10;
+}
+.results-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px; color: white; letter-spacing: .5px; }
+.results-sub { font-size: 12px; color: #555; margin-top: 2px; }
+.filter-row { display: flex; gap: 8px; margin-top: 13px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.filter-row::-webkit-scrollbar { display: none; }
+.fchip {
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .8px;
+  white-space: nowrap;
+  border: 1.5px solid #2e2e2e;
+  background: none;
+  color: #666;
+  cursor: pointer;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.fchip.active { background: var(--amber); border-color: var(--amber); color: white; }
+.results-list {
+  position: absolute;
+  top: 155px; left: 0; right: 0; bottom: 84px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 4px 18px 16px;
+  scrollbar-width: none;
+}
+.results-list::-webkit-scrollbar { display: none; }
+
+/* Cabin Card */
+.ccard {
+  background: #212121;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: transform .18s;
+  border: 1px solid #292929;
+}
+.ccard:active { transform: scale(.985); }
+.cimg {
+  height: 200px;
+  position: relative;
+  background: #2c1a0a;
+  background-size: cover;
+  background-position: center;
+}
+.cimg-fade { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(0,0,0,.65) 100%); }
+.cbadge {
+  position: absolute;
+  top: 13px; left: 13px;
+  padding: 5px 12px;
+  background: var(--amber);
+  border-radius: 20px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: white;
+  text-transform: uppercase;
+}
+.cprice { position: absolute; top: 13px; right: 13px; text-align: right; }
+.cprice .pval { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px; color: white; }
+.cprice .pnight { font-size: 10px; color: rgba(255,255,255,.65); }
+.cbody { padding: 14px 16px; }
+.cloc { font-size: 10px; color: var(--tan); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-bottom: 3px; }
+.cname { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; color: white; text-transform: uppercase; letter-spacing: .4px; line-height: 1.1; margin-bottom: 9px; }
+.cmeta { display: flex; align-items: center; justify-content: space-between; }
+.cstars { display: flex; gap: 2px; align-items: center; }
+.s { font-size: 12px; color: var(--amber); }
+.s.e { color: #383838; }
+.rcount { font-size: 11px; color: #484848; margin-left: 5px; }
+.camenities { display: flex; gap: 8px; }
+.adot { width: 26px; height: 26px; border-radius: 50%; border: 1px solid #333; display: flex; align-items: center; justify-content: center; }
+.adot svg { stroke: #666; fill: none; width: 12px; height: 12px; stroke-width: 1.5; }
+
+/* ─────────────────────────────────
+   SCREEN 3: DETAIL
+───────────────────────────────── */
+.dhero {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 54%;
+  background-color: #2c1a0a;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dwatermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -62%); width: 110px; height: 110px; opacity: 0.2; }
+.dpanel {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  top: 46%;
+  background: var(--dark);
+  border-radius: 32px 32px 0 0;
+  overflow: hidden;
+}
+.dscroll { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.dscroll::-webkit-scrollbar { display: none; }
+.dcontent { padding: 26px 22px 0; }
+.d-italic { font-family: 'Dancing Script', cursive; font-size: 20px; color: var(--tan); margin-bottom: 5px; }
+.d-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 13px; }
+.d-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; color: white; text-transform: uppercase; letter-spacing: .4px; line-height: 1.08; flex: 1; }
+.d-review-btn {
+  padding: 10px 18px;
+  background: var(--amber);
+  color: white;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: transform .15s;
+}
+.d-review-btn:active { transform: scale(.95); }
+.d-stars { display: flex; gap: 4px; margin-bottom: 13px; }
+.d-star { font-size: 18px; color: var(--amber); }
+.d-rev-row { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+.avstack { display: flex; }
+.av { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--dark); background: var(--tan) center/cover; margin-left: -9px; overflow: hidden; }
+.av:first-child { margin-left: 0; }
+.avmore { width: 34px; height: 34px; border-radius: 50%; background: var(--amber); border: 2px solid var(--dark); margin-left: -9px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; }
+.rcount-text { font-size: 12px; color: #777; }
+.d-desc { font-size: 13px; color: #888; line-height: 1.65; margin-bottom: 7px; }
+.read-more { font-size: 12px; font-weight: 600; color: var(--tan); cursor: pointer; display: inline-block; margin-bottom: 22px; }
+
+/* Amenities bar */
+.ambar { background: var(--cream); border-radius: 24px 24px 0 0; padding: 20px 20px 0; margin: 0 -22px; }
+.amrow { display: flex; justify-content: space-around; margin-bottom: 14px; }
+.ambtn { display: flex; flex-direction: column; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; }
+.amcircle { width: 50px; height: 50px; border-radius: 50%; border: 1.5px solid #c8c4b0; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.5); transition: background .2s; }
+.ambtn:active .amcircle { background: rgba(202,163,117,.25); }
+.amcircle svg { stroke: var(--dark); fill: none; width: 21px; height: 21px; stroke-width: 1.5; }
+.amlabel { font-size: 8px; letter-spacing: 1px; color: #7a7060; text-transform: uppercase; font-weight: 600; }
+.choose-btn {
+  display: block;
+  width: calc(100% + 44px);
+  margin: 0 -22px;
+  padding: 20px;
+  background: var(--dark);
+  color: white;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+.choose-btn:active { opacity: .8; }
+
+/* ─────────────────────────────────
+   SCREEN 4: REVIEWS
+───────────────────────────────── */
+.rev-header { position: absolute; top: 0; left: 0; right: 0; padding: 58px 22px 18px; }
+.rev-top-row { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.rev-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 22px; color: white; text-transform: uppercase; letter-spacing: 1.5px; }
+.rev-meta { display: flex; align-items: center; gap: 14px; }
+.rev-score { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 54px; color: white; line-height: 1; }
+.rev-right { flex: 1; }
+.rev-stars { display: flex; gap: 3px; margin-bottom: 5px; }
+.rev-cnt { font-size: 12px; color: #666; }
+.rating-bars { margin-top: 18px; }
+.rbar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+.rbar-lbl { font-size: 11px; color: #777; width: 11px; text-align: right; }
+.rbar-track { flex: 1; height: 4px; background: #282828; border-radius: 3px; overflow: hidden; }
+.rbar-fill { height: 100%; background: var(--amber); border-radius: 3px; }
+.rev-list { position: absolute; top: 268px; left: 0; right: 0; bottom: 84px; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 0 18px 16px; scrollbar-width: none; }
+.rev-list::-webkit-scrollbar { display: none; }
+.rcard { background: #212121; border-radius: 18px; padding: 17px; margin-bottom: 11px; border: 1px solid #292929; }
+.rcard-top { display: flex; align-items: center; gap: 11px; margin-bottom: 11px; }
+.ravatar { width: 42px; height: 42px; border-radius: 50%; background: var(--tan) center/cover; flex-shrink: 0; overflow: hidden; }
+.rname { font-size: 14px; font-weight: 600; color: white; }
+.rdate { font-size: 11px; color: #555; margin-top: 2px; }
+.rstars { display: flex; gap: 2px; margin-bottom: 7px; }
+.rstars .s { font-size: 12px; }
+.rtext { font-size: 13px; color: #999; line-height: 1.6; }
+.rhelpful { font-size: 11px; color: #444; margin-top: 9px; }
+.rhelpful span { color: var(--tan); cursor: pointer; }
+
+/* ─────────────────────────────────
+   SCREEN 5: PROFILE
+───────────────────────────────── */
+.phero {
+  height: 235px;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.25) 0%, var(--dark) 100%),
+    url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80&auto=format&fit=crop') center/cover,
+    #1a2c1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 22px;
+}
+.pavatar { width: 78px; height: 78px; border-radius: 50%; border: 3px solid var(--amber); background: var(--tan) center/cover; overflow: hidden; margin-bottom: 11px; }
+.pname { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 21px; color: white; letter-spacing: .8px; text-transform: uppercase; }
+.pmember { font-size: 11px; color: rgba(255,255,255,.45); letter-spacing: .8px; margin-top: 2px; }
+.pstats { display: flex; border-top: 1px solid #222; border-bottom: 1px solid #222; }
+.pstat { flex: 1; padding: 16px 0; text-align: center; border-right: 1px solid #222; }
+.pstat:last-child { border-right: none; }
+.pstat .sv { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 24px; color: white; }
+.pstat .sl { font-size: 9px; color: #444; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+.pscroll { position: absolute; top: 334px; left: 0; right: 0; bottom: 84px; overflow-y: auto; padding: 18px 18px; scrollbar-width: none; }
+.pscroll::-webkit-scrollbar { display: none; }
+.psec-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 15px; color: white; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 13px; }
+.upcoming-card {
+  background: var(--amber);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  cursor: pointer;
+}
+.u-img { width: 68px; height: 68px; border-radius: 12px; background: rgba(0,0,0,.2) center/cover; flex-shrink: 0; }
+.u-info { flex: 1; }
+.u-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 15px; color: white; text-transform: uppercase; letter-spacing: .3px; }
+.u-date { font-size: 12px; color: rgba(255,255,255,.7); margin-top: 3px; }
+.u-nights { font-size: 10px; color: rgba(255,255,255,.55); margin-top: 2px; font-weight: 600; letter-spacing: .4px; }
+.saved-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-bottom: 20px; }
+.scard {
+  border-radius: 15px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  position: relative;
+  cursor: pointer;
+  background: #2c1a0a center/cover;
+}
+.scard-ov { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 42%, rgba(0,0,0,.8) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; }
+.scname { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; color: white; text-transform: uppercase; letter-spacing: .2px; line-height: 1.1; }
+.scloc { font-size: 9px; color: var(--tan); margin-top: 2px; }
+.heartbtn { position: absolute; top: 9px; right: 9px; width: 28px; height: 28px; background: rgba(0,0,0,.45); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; }
+.heartbtn svg { fill: var(--amber); stroke: none; width: 13px; }
+.pmenu { border-top: 1px solid #222; padding-top: 14px; }
+.mitem { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #1c1c1c; cursor: pointer; }
+.micon { width: 38px; height: 38px; border-radius: 11px; background: #242424; display: flex; align-items: center; justify-content: center; }
+.micon svg { stroke: var(--tan); fill: none; stroke-width: 1.5; width: 18px; height: 18px; }
+.mtext { flex: 1; }
+.mtitle { font-size: 14px; font-weight: 500; color: white; }
+.msub { font-size: 11px; color: #555; margin-top: 2px; }
+.marrow svg { stroke: #333; fill: none; stroke-width: 1.5; width: 15px; height: 15px; }
+
+/* ─────────────────────────────────
+   BOOKING MODAL
+───────────────────────────────── */
+.modal-ov {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .28s;
+}
+.modal-ov.open { opacity: 1; pointer-events: all; }
+.modal-sheet {
+  width: 100%;
+  background: var(--cream);
+  border-radius: 32px 32px 0 0;
+  padding: 24px 22px 40px;
+  transform: translateY(100%);
+  transition: transform .32s cubic-bezier(.4,0,.2,1);
+}
+.modal-ov.open .modal-sheet { transform: translateY(0); }
+.mhandle { width: 38px; height: 4px; background: #c8c4b0; border-radius: 2px; margin: 0 auto 22px; }
+.mtit { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 24px; color: var(--dark); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 4px; }
+.msub-txt { font-size: 12px; color: #8a806e; margin-bottom: 20px; }
+.room-opt {
+  background: white;
+  border-radius: 16px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color .2s, transform .15s;
+}
+.room-opt.sel { border-color: var(--amber); }
+.room-opt:active { transform: scale(.98); }
+.rimg { width: 64px; height: 64px; border-radius: 11px; background: #d5d2be center/cover; flex-shrink: 0; }
+.rinfo { flex: 1; }
+.rname { font-weight: 600; font-size: 14px; color: var(--dark); }
+.rbeds { font-size: 11px; color: #999; margin-top: 3px; }
+.rprice-wrap { text-align: right; }
+.rprice { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 21px; color: var(--dark); }
+.rnight { font-size: 9px; color: #999; }
+.book-btn { width: 100%; padding: 18px; background: var(--dark); color: white; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 5px; text-transform: uppercase; border: none; border-radius: 14px; cursor: pointer; margin-top: 8px; transition: opacity .2s; }
+.book-btn:active { opacity: .85; }
+
+/* ─────────────────────────────────
+   TOAST
+───────────────────────────────── */
+.toast {
+  position: absolute;
+  bottom: 96px; left: 20px; right: 20px;
+  background: var(--amber);
+  color: white;
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
+  z-index: 300;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .28s, transform .28s;
+  pointer-events: none;
+  letter-spacing: .3px;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ─────────────────────────────────
+   ANIMATIONS
+───────────────────────────────── */
+/* ── CALENDAR ── */
+.cal-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.68);
+  backdrop-filter: blur(6px);
+  z-index: 180;
+  display: flex; align-items: flex-end;
+  opacity: 0; pointer-events: none;
+  transition: opacity .28s;
+}
+.cal-overlay.open { opacity: 1; pointer-events: all; }
+.cal-sheet {
+  width: 100%;
+  background: var(--cream);
+  border-radius: 32px 32px 0 0;
+  padding: 20px 20px 38px;
+  transform: translateY(100%);
+  transition: transform .32s cubic-bezier(.4,0,.2,1);
+}
+.cal-overlay.open .cal-sheet { transform: translateY(0); }
+.cal-mode-lbl { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: var(--dark); text-align: center; margin-bottom: 14px; }
+.cal-sel-row { display: flex; gap: 10px; margin-bottom: 16px; }
+.cal-sel-item { flex: 1; background: rgba(255,255,255,.6); border-radius: 12px; padding: 10px 12px; border: 1.5px solid transparent; cursor: pointer; transition: border-color .2s; }
+.cal-sel-item.active { border-color: var(--amber); }
+.cal-sel-label { font-size: 9px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #8a806e; margin-bottom: 3px; }
+.cal-sel-value { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 15px; color: var(--dark); }
+.cal-nav-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.cal-nav-btn { width: 34px; height: 34px; border: none; border-radius: 50%; background: rgba(0,0,0,.07); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.cal-nav-btn svg { stroke: var(--dark); fill: none; }
+.cal-month-lbl { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dark); }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+.cal-wd { text-align: center; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #8a806e; padding: 5px 0 8px; }
+.cal-d {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 500; color: var(--dark);
+  border: none; background: none; cursor: pointer;
+  border-radius: 50%; position: relative; transition: background .12s;
+}
+.cal-d.empty { pointer-events: none; }
+.cal-d.past { color: #c4c0b4; pointer-events: none; }
+.cal-d.today::after { content:''; position:absolute; bottom:3px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background:var(--amber); }
+.cal-d.in-range { background: rgba(191,117,43,.15); border-radius: 0; }
+.cal-d.range-start { border-radius: 50% 0 0 50%; }
+.cal-d.range-end { border-radius: 0 50% 50% 0; }
+.cal-d.sel { background: var(--amber); color: white; border-radius: 50%; z-index: 1; }
+.cal-d.sel.range-start { border-radius: 50% 0 0 50%; }
+.cal-d.sel.range-end { border-radius: 0 50% 50% 0; }
+.cal-done-btn { width: 100%; padding: 16px; background: var(--dark); color: white; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 5px; text-transform: uppercase; border: none; border-radius: 14px; cursor: pointer; margin-top: 18px; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* ─── OVERRIDES ─── */
+.choose-btn { background: var(--amber); box-shadow: 0 8px 24px rgba(191,117,43,.3); }
+.bottom-nav { bottom: 12px; left: 12px; right: 12px; height: 68px; border-radius: 34px; padding: 0 8px; box-shadow: 0 4px 20px rgba(0,0,0,.22); }
+.search-hero-mark { position:absolute; left:50%; top:38%; transform:translate(-50%,-50%); width:74px; height:74px; opacity:.88; }
+/* ─── DARK INPUTS ─── */
+.dlabel { font-size:10px;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:7px;display:block; }
+.dinput { width:100%;padding:13px 15px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);border-radius:13px;font-family:'Barlow',sans-serif;font-size:14px;color:white;outline:none;transition:border-color .2s; }
+.dinput::placeholder { color:rgba(255,255,255,.28); }
+.dinput:focus { border-color:var(--tan); }
+.dark-card { background:#1c1c1c;border-radius:18px;padding:18px;border:1px solid #292929; }
+/* ─── SHARED SUB-SCREEN ─── */
+.screen-hdr { padding:70px 22px 18px;border-bottom:1px solid #202020; }
+.screen-hdr-title { font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:26px;color:white;text-transform:uppercase;letter-spacing:.8px; }
+.screen-hdr-sub { font-size:12px;color:#555;margin-top:3px; }
+.screen-scroll { position:absolute;top:110px;left:0;right:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:20px 22px 40px; }
+.screen-scroll::-webkit-scrollbar { display:none; }
+.amber-btn { width:100%;padding:18px;background:var(--amber);color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:5px;text-transform:uppercase;border:none;border-radius:14px;cursor:pointer;transition:opacity .2s;box-shadow:0 8px 24px rgba(191,117,43,.3); }
+.amber-btn:active { opacity:.85; }
+/* ─── PRICE BREAKDOWN ─── */
+.price-row { display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #282828; }
+.price-row:last-child { border-bottom:none;padding-top:14px; }
+.price-row .pr-lbl { font-size:13px;color:#666; }
+.price-row .pr-val { font-size:13px;color:white;font-weight:500; }
+.price-row.total .pr-lbl { font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:white;text-transform:uppercase;letter-spacing:1px; }
+.price-row.total .pr-val { font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:22px;color:var(--amber); }
+/* ─── SETTINGS TOGGLES ─── */
+.tog-row { display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid #1c1c1c; }
+.tog-label { font-size:14px;color:white; }
+.tog-sub { font-size:11px;color:#555;margin-top:2px; }
+.tog { width:44px;height:26px;border-radius:13px;background:#333;position:relative;cursor:pointer;transition:background .2s;border:none;flex-shrink:0; }
+.tog.on { background:var(--amber); }
+.tog::after { content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:white;transition:transform .2s; }
+.tog.on::after { transform:translateX(18px); }
+/* ─── LOYALTY ─── */
+.loyalty-bar-track { height:8px;background:#252525;border-radius:4px;margin:10px 0 6px;overflow:hidden; }
+.loyalty-bar-fill { height:100%;background:linear-gradient(90deg,var(--tan),var(--amber));border-radius:4px; }
+.perk-row { display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid #1c1c1c; }
+.perk-icon { width:34px;height:34px;border-radius:9px;background:#242424;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.perk-icon svg { stroke:var(--tan);fill:none;stroke-width:1.5;width:16px;height:16px; }
+.perk-title { font-size:13px;color:white;font-weight:500; }
+.perk-sub { font-size:11px;color:#555;margin-top:2px; }
+/* ─── TRIP HISTORY ─── */
+.hist-card { background:#1c1c1c;border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;gap:13px;align-items:center;border:1px solid #282828; }
+.hist-img { width:56px;height:56px;border-radius:10px;background:#2c1a0a center/cover;flex-shrink:0; }
+.hist-name { font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:white;text-transform:uppercase;letter-spacing:.3px; }
+.hist-dates { font-size:11px;color:#666;margin-top:3px; }
+.hist-badge { padding:3px 9px;background:#242424;border-radius:10px;font-size:9px;font-weight:700;letter-spacing:1px;color:var(--tan);text-transform:uppercase;margin-top:5px;display:inline-block; }
+/* ─── PAYMENT CARD ─── */
+.cc-visual { background:linear-gradient(135deg,#2a2015,#1a1408);border-radius:16px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden; }
+.cc-chip { width:36px;height:28px;border-radius:6px;background:linear-gradient(135deg,var(--tan),var(--amber));margin-bottom:16px; }
+.cc-num { font-family:'Barlow Condensed',sans-serif;font-size:18px;letter-spacing:4px;color:white;margin-bottom:8px; }
+.cc-row { display:flex;justify-content:space-between; }
+.cc-lbl { font-size:9px;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px; }
+.cc-val { font-size:13px;color:white;font-weight:500; }
+/* ─── FILTER PANEL ─── */
+.filt-overlay { position:absolute;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(6px);z-index:180;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .28s; }
+.filt-overlay.open { opacity:1;pointer-events:all; }
+.filt-sheet { width:100%;background:var(--cream);border-radius:32px 32px 0 0;padding:20px 20px 38px;transform:translateY(100%);transition:transform .32s cubic-bezier(.4,0,.2,1); }
+.filt-overlay.open .filt-sheet { transform:translateY(0); }
+.filt-sec-title { font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#8a806e;margin-bottom:10px; }
+.filt-chip { padding:7px 14px;border-radius:20px;font-size:11px;font-weight:600;border:1.5px solid #c8c4b0;background:none;color:#8a806e;cursor:pointer;transition:all .2s;white-space:nowrap; }
+.filt-chip.active { background:var(--amber);border-color:var(--amber);color:white; }
+.am-chip { padding:7px 14px;border-radius:20px;font-size:11px;font-weight:600;border:1.5px solid #c8c4b0;background:none;color:#8a806e;cursor:pointer;transition:all .2s;white-space:nowrap; }
+.am-chip.active { background:var(--dark);border-color:var(--dark);color:white; }
+</style>
+</head>
+<body>
+
+<div class="frame" id="app">
+  <div class="island"></div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="status-time" id="clock">9:41</span>
+    <div class="status-icons">
+      <!-- Signal bars -->
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="white">
+        <rect x="0" y="4" width="3" height="8" rx="1"/>
+        <rect x="4.5" y="2.5" width="3" height="9.5" rx="1"/>
+        <rect x="9" y="1" width="3" height="11" rx="1"/>
+        <rect x="13.5" y="0" width="3" height="12" rx="1" opacity=".3"/>
+      </svg>
+      <!-- WiFi -->
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="white">
+        <path d="M8 9a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/>
+        <path d="M4.5 6.2C5.6 5.1 7 4.5 8 4.5s2.4.6 3.5 1.7l1.3-1.3A7 7 0 0 0 8 3a7 7 0 0 0-4.8 1.9l1.3 1.3z"/>
+        <path d="M1 3.2A11 11 0 0 1 8 0a11 11 0 0 1 7 3.2L13.7 4.5A9 9 0 0 0 8 2a9 9 0 0 0-5.7 2.5L1 3.2z" opacity=".4"/>
+      </svg>
+      <!-- Battery -->
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
+        <rect x=".75" y=".75" width="20.5" height="10.5" rx="2.5" stroke="white" stroke-width="1.5" opacity=".35"/>
+        <rect x="22" y="3.75" width="2.5" height="4.5" rx="1.25" fill="white" opacity=".4"/>
+        <rect x="2" y="2" width="15" height="8" rx="1.5" fill="white"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN 0 · SPLASH
+  ══════════════════════════════ -->
+  <div class="screen active" id="screen-splash">
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;">
+
+      <div class="splash-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320.89 189.37"><defs><style>.cls-1{fill:#fff;opacity:.85;}</style></defs><path class="cls-1" d="M197.55,76.52l7.56,7.56c5.83-8.61,9.23-19,9.23-30.18,0-29.77-24.13-53.9-53.9-53.9s-53.9,24.13-53.9,53.9c0,11.18,3.41,21.57,9.24,30.18l22.85-22.85,7.29-7.29,7.24,7.24,7.29,7.27,22.58,22.56,7.57,7.56c2.86-1.94,5.53-4.14,7.96-6.57l-30.83-30.83,7.24-7.24,22.57,22.57ZM167.69,46.66l-7.24,7.24-14.48-14.48-14.57,14.57-7.24,7.24-5.29,5.29c-1.19-3.94-1.84-8.11-1.86-12.44v-.19c0-4.34.64-8.52,1.82-12.47,1.07-3.57,2.59-6.95,4.48-10.08,1.81-2.98,3.97-5.72,6.42-8.17s5.15-4.57,8.1-6.38c3.1-1.9,6.45-3.41,10-4.48,3.99-1.21,8.23-1.86,12.62-1.86s8.63.65,12.62,1.86c3.55,1.07,6.9,2.59,10,4.48,2.95,1.8,5.67,3.95,8.09,6.38,2.45,2.45,4.61,5.19,6.42,8.17,4,6.57,6.3,14.29,6.3,22.55,0,4.39-.65,8.63-1.86,12.62l-27.1-27.1-7.24,7.24Z"/><path class="cls-1" d="M181.23,103.64c-3.55,1.48-7.3,2.59-11.18,3.29l-2.35-2.35-7.24-7.24h0s0,0,0,0l-7.23-7.24-7.24-7.23h0s0,0,0,0l-7.23,7.24-7.24,7.24h0s-1.22,1.23-1.22,1.23c-2.85-1.93-5.5-4.12-7.93-6.55l1.92-1.92,5.48-5.48,1.76-1.75h0s0,0,0,0l7.24-7.24,7.24-7.24,14.48,14.48,7.24,7.25,7.23,7.23h0s6.3,6.3,6.3,6.3Z"/><path class="cls-1" d="M15.64,160.35v-25.09c0-.81.02-1.53.05-2.14h-.23c-.03.21-.07.47-.11.76s-.12.77-.23,1.45c-.11.68-.27,1.6-.48,2.76-.22,1.17-.5,2.72-.85,4.67-.35,1.95-.78,4.35-1.29,7.22-.51,2.87-1.13,6.33-1.86,10.37h-1.93c-.74-4.05-1.37-7.5-1.89-10.37-.52-2.87-.96-5.27-1.31-7.22s-.64-3.51-.85-4.69c-.21-1.18-.38-2.1-.48-2.76-.11-.66-.18-1.13-.23-1.43s-.08-.54-.11-.76h-.23c.03.61.05,1.33.05,2.14v25.09H0v-34.82h6.53c.61,3.99,1.1,7.19,1.47,9.61.37,2.42.66,4.34.87,5.75.21,1.41.36,2.45.44,3.13.08.67.15,1.27.21,1.79h.23c.03-.52.09-1.12.18-1.79.09-.67.25-1.72.46-3.13.21-1.41.51-3.33.9-5.75.38-2.42.88-5.63,1.49-9.61h6.49v34.82h-3.63Z"/><path class="cls-1" d="M36.11,160.35v-34.82h4.19v34.82h-4.19Z"/><path class="cls-1" d="M57.18,160.35v-34.82h6.76c1.56,0,2.74.2,3.54.6s1.43,1.12,1.89,2.16c.21.52.4,1.08.55,1.68.15.6.28,1.42.37,2.46.09,1.04.15,2.39.18,4.05.03,1.66.05,3.8.05,6.44s-.02,4.94-.07,6.62-.12,3.04-.21,4.07c-.09,1.03-.21,1.83-.35,2.42-.14.58-.31,1.12-.53,1.61-.43,1.04-1.04,1.76-1.84,2.14-.8.38-1.99.58-3.59.58h-6.76ZM63.85,156.07c.61,0,1.07-.1,1.36-.3.29-.2.51-.56.67-1.08.09-.34.18-.72.25-1.15.08-.43.13-1.06.16-1.89.03-.83.05-1.93.07-3.31.02-1.38.02-3.2.02-5.47s0-3.99-.02-5.36c-.02-1.36-.04-2.47-.07-3.31-.03-.84-.08-1.49-.14-1.93-.06-.44-.15-.83-.28-1.17-.18-.52-.42-.89-.71-1.1-.29-.21-.73-.32-1.31-.32h-2.62v26.4h2.62Z"/><path class="cls-1" d="M123.1,160.35v-25.09c0-.81.02-1.53.05-2.14h-.23c-.03.21-.07.47-.11.76s-.12.77-.23,1.45c-.11.68-.27,1.6-.48,2.76-.22,1.17-.5,2.72-.85,4.67-.35,1.95-.78,4.35-1.29,7.22-.51,2.87-1.13,6.33-1.86,10.37h-1.93c-.74-4.05-1.37-7.5-1.89-10.37-.52-2.87-.96-5.27-1.31-7.22s-.64-3.51-.85-4.69c-.21-1.18-.38-2.1-.48-2.76-.11-.66-.18-1.13-.23-1.43s-.08-.54-.11-.76h-.23c.03.61.05,1.33.05,2.14v25.09h-3.63v-34.82h6.53c.61,3.99,1.1,7.19,1.47,9.61.37,2.42.66,4.34.87,5.75.21,1.41.36,2.45.44,3.13.08.67.15,1.27.21,1.79h.23c.03-.52.09-1.12.18-1.79.09-.67.25-1.72.46-3.13.21-1.41.51-3.33.9-5.75.38-2.42.88-5.63,1.49-9.61h6.49v34.82h-3.63Z"/><path class="cls-1" d="M144.3,158.1c-.21-.52-.4-1.1-.55-1.72-.15-.63-.28-1.48-.37-2.55-.09-1.07-.16-2.48-.21-4.21-.05-1.73-.07-3.96-.07-6.69s.02-4.95.07-6.67c.05-1.72.12-3.11.21-4.19.09-1.07.21-1.92.37-2.53.15-.61.34-1.2.55-1.75.43-1.07,1.04-1.82,1.84-2.23.8-.41,1.98-.62,3.54-.62s2.74.21,3.54.62c.8.41,1.41,1.16,1.84,2.23.21.55.4,1.14.55,1.75.15.61.28,1.46.37,2.53.09,1.07.16,2.47.21,4.19.04,1.72.07,3.94.07,6.67s-.02,4.96-.07,6.69c-.05,1.73-.12,3.14-.21,4.21-.09,1.07-.21,1.92-.37,2.55s-.34,1.2-.55,1.72c-.43,1.07-1.04,1.82-1.84,2.23-.8.41-1.98.62-3.54.62s-2.75-.21-3.54-.62c-.8-.41-1.41-1.16-1.84-2.23ZM151.66,155.15c.09-.37.17-.77.23-1.2.06-.43.12-1.07.16-1.91.04-.84.08-1.99.12-3.43.03-1.44.04-3.37.04-5.8s0-4.36-.02-5.82c-.02-1.46-.05-2.61-.09-3.45-.04-.84-.1-1.47-.16-1.89-.06-.41-.14-.81-.23-1.17-.15-.55-.38-.94-.67-1.17-.29-.23-.74-.34-1.36-.34s-1.06.12-1.33.34c-.28.23-.49.61-.64,1.13-.09.37-.18.77-.25,1.2-.08.43-.14,1.07-.18,1.91-.05.84-.08,1.99-.09,3.45-.02,1.46-.02,3.4-.02,5.82s0,4.36.02,5.8c.02,1.44.05,2.58.09,3.43s.11,1.48.18,1.91c.08.43.16.83.25,1.2.15.55.37.94.64,1.15.28.21.72.32,1.33.32s1.06-.11,1.33-.32c.28-.21.49-.6.64-1.15Z"/><path class="cls-1" d="M181.51,125.53h4.05v25.16c0,1.17,0,2.15-.02,2.94-.02.8-.05,1.49-.09,2.07-.05.58-.13,1.09-.25,1.52-.12.43-.29.86-.51,1.29-.46.92-1.11,1.56-1.96,1.91-.84.35-2.08.53-3.7.53s-2.91-.18-3.75-.53c-.84-.35-1.5-.99-1.96-1.91-.21-.43-.38-.86-.51-1.29-.12-.43-.21-.94-.28-1.52-.06-.58-.1-1.27-.12-2.07-.02-.8-.02-1.78-.02-2.94v-25.16h4.19v25.16c0,.92,0,1.66.02,2.23.01.57.04,1.04.07,1.4.03.37.08.66.16.87.08.21.18.43.3.64.18.31.42.51.71.62.29.11.7.16,1.22.16s.92-.05,1.2-.16c.28-.11.51-.31.69-.62.12-.21.22-.43.3-.64.08-.21.13-.51.16-.87.03-.37.05-.83.07-1.4.01-.57.02-1.31.02-2.23v-25.16Z"/><path class="cls-1" d="M213.21,160.35c-1.01-3.37-1.89-6.27-2.62-8.69-.74-2.42-1.36-4.48-1.86-6.16-.51-1.69-.91-3.07-1.22-4.14-.31-1.07-.56-1.95-.76-2.62-.2-.67-.35-1.2-.46-1.59-.11-.38-.19-.73-.25-1.04h-.23c.03.98.05,2.01.05,3.08v21.16h-3.73v-34.82h4.69c.67,2.58,1.26,4.78,1.75,6.6.49,1.82.9,3.36,1.22,4.6s.58,2.24.78,2.99c.2.75.35,1.35.46,1.79s.18.78.23,1.01c.05.23.08.44.12.62h.23c-.03-.58-.05-1.18-.05-1.79v-15.82h3.77v34.82h-2.12Z"/><path class="cls-1" d="M235.43,160.35v-30.68h-4.32v-4.14h12.7v4.14h-4.28v30.68h-4.09Z"/><path class="cls-1" d="M266.38,160.35l-.78-9.48h-3.73l-.78,9.48h-4.09l3.45-34.82h6.9l3.22,34.82h-4.19ZM264.31,133.81c-.06-.71-.12-1.4-.18-2.07-.06-.67-.12-1.36-.18-2.07h-.32c-.06.71-.12,1.4-.18,2.07-.06.67-.12,1.37-.18,2.07l-1.2,13.06h3.36l-1.1-13.06Z"/><path class="cls-1" d="M286.67,160.35v-34.82h4.19v34.82h-4.19Z"/><path class="cls-1" d="M318.78,160.35c-1.01-3.37-1.89-6.27-2.62-8.69-.74-2.42-1.36-4.48-1.86-6.16-.51-1.69-.91-3.07-1.22-4.14-.31-1.07-.56-1.95-.76-2.62-.2-.67-.35-1.2-.46-1.59-.11-.38-.19-.73-.25-1.04h-.23c.03.98.05,2.01.05,3.08v21.16h-3.73v-34.82h4.69c.67,2.58,1.26,4.78,1.75,6.6.49,1.82.9,3.36,1.22,4.6s.58,2.24.78,2.99c.2.75.35,1.35.46,1.79s.18.78.23,1.01c.05.23.08.44.12.62h.23c-.03-.58-.05-1.18-.05-1.79v-15.82h3.77v34.82h-2.12Z"/><path class="cls-1" d="M120.43,179.21h1.18v8.82h4.54v1.09h-5.71v-9.91Z"/><path class="cls-1" d="M140.44,189.37c-.76,0-1.45-.13-2.08-.39-.63-.26-1.18-.62-1.64-1.09-.46-.46-.82-1.01-1.08-1.65-.26-.64-.39-1.33-.39-2.08s.13-1.44.39-2.08c.26-.64.62-1.19,1.08-1.65.46-.46,1.01-.82,1.64-1.09.63-.26,1.32-.39,2.08-.39s1.45.13,2.08.39c.63.26,1.18.62,1.64,1.09.46.46.82,1.01,1.08,1.65.26.64.39,1.33.39,2.08s-.13,1.44-.39,2.08c-.26.64-.62,1.19-1.08,1.65-.46.46-1.01.82-1.64,1.09-.63.26-1.32.39-2.08.39ZM140.44,188.28c.58,0,1.11-.11,1.59-.32.48-.21.89-.51,1.24-.88.35-.37.61-.81.8-1.31.19-.5.29-1.03.29-1.6s-.1-1.1-.29-1.6c-.19-.5-.46-.94-.8-1.31-.35-.37-.76-.67-1.24-.88-.48-.21-1.01-.32-1.59-.32s-1.11.11-1.59.32c-.48.21-.89.51-1.24.88-.35.37-.61.81-.8,1.31-.19.5-.29,1.03-.29,1.6s.1,1.1.29,1.6c.19.5.46.94.8,1.31.35.37.76.67,1.24.88.48.21,1.01.32,1.59.32Z"/><path class="cls-1" d="M155.73,179.21h3.81c.33,0,.67.04,1.04.11s.73.19,1.09.36c.36.16.7.38,1.04.64.33.26.62.58.88.95s.45.79.6,1.27c.15.48.22,1.02.22,1.63s-.08,1.15-.22,1.63c-.15.48-.35.91-.6,1.27s-.54.68-.88.94-.68.47-1.04.64c-.36.16-.72.28-1.09.36s-.71.11-1.04.11h-3.81v-9.91ZM156.9,188.03h2.24c.57,0,1.1-.07,1.58-.22.49-.15.91-.38,1.26-.69.35-.31.63-.71.84-1.2s.31-1.07.31-1.75-.1-1.26-.31-1.75-.49-.88-.84-1.2c-.35-.31-.77-.54-1.26-.69-.49-.15-1.01-.22-1.58-.22h-2.24v7.73Z"/><path class="cls-1" d="M183.11,188.45c-.57.32-1.17.55-1.8.7-.63.15-1.27.22-1.91.22-.77,0-1.48-.13-2.13-.38-.64-.25-1.2-.61-1.67-1.06-.47-.46-.84-1.01-1.1-1.65s-.39-1.35-.39-2.12.14-1.5.41-2.13.66-1.19,1.14-1.64,1.05-.81,1.69-1.06c.64-.25,1.34-.38,2.09-.38.65,0,1.28.1,1.88.29.6.2,1.14.53,1.62,1.01l-.88.92c-.34-.36-.74-.64-1.23-.84-.48-.2-.97-.29-1.48-.29-.57,0-1.1.1-1.58.31-.49.21-.91.49-1.27.85-.36.36-.64.8-.84,1.3-.2.5-.3,1.05-.3,1.65s.1,1.13.3,1.64c.2.5.48.94.84,1.31.36.37.79.66,1.29.86.5.21,1.06.31,1.67.31.4,0,.82-.05,1.26-.15.44-.1.84-.24,1.2-.43v-3.04h-2.28v-1.09h3.46v4.87Z"/><path class="cls-1" d="M193.98,179.21h6.23v1.09h-5.05v3.11h4.72v1.09h-4.72v3.53h5.31v1.09h-6.48v-9.91Z"/></svg>
+      </div>
+
+      <div class="splash-rule"></div>
+
+      <div class="splash-features">
+        <div class="feat">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+          <span>24 Cabins</span>
+        </div>
+        <div class="feat">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>10 States</span>
+        </div>
+        <div class="feat">
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <span>5-Star Rated</span>
+        </div>
+      </div>
+
+      <button class="splash-cta" onclick="goTo('search')">Explore Cabins</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN 1 · SEARCH
+  ══════════════════════════════ -->
+  <div class="screen" id="screen-search">
+    <div class="search-hero">
+      <div class="search-hero-mark">
+        <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 193.89 192.33"><defs><style>.cls-1{fill:#fff;opacity:.8;}</style></defs><path class="cls-1" d="M163.67,137.63l13.6,13.6c10.48-15.49,16.61-34.17,16.61-54.29C193.89,43.4,150.49,0,96.95,0S0,43.4,0,96.95c0,20.11,6.13,38.8,16.62,54.29l41.1-41.1,13.1-13.1,13.02,13.02,13.1,13.08,40.61,40.58,13.62,13.6c5.14-3.48,9.94-7.44,14.32-11.82l-55.44-55.44,13.02-13.02,40.6,40.6ZM109.97,83.93l-13.02,13.02-26.04-26.04-26.21,26.21-13.02,13.02-9.52,9.51c-2.15-7.08-3.31-14.59-3.35-22.37v-.33c0-7.8,1.14-15.32,3.27-22.43,1.92-6.43,4.65-12.51,8.06-18.12,3.26-5.35,7.14-10.29,11.55-14.7s9.26-8.23,14.57-11.47c5.57-3.41,11.6-6.13,17.98-8.06,7.18-2.18,14.81-3.35,22.7-3.35s15.52,1.17,22.7,3.35c6.38,1.93,12.41,4.65,17.98,8.06,5.31,3.24,10.19,7.11,14.56,11.48,4.41,4.41,8.3,9.34,11.55,14.69,7.19,11.82,11.33,25.7,11.33,40.55,0,7.89-1.17,15.52-3.34,22.7l-48.74-48.74-13.02,13.02Z"/><path class="cls-1" d="M134.32,186.41c-6.38,2.67-13.13,4.66-20.11,5.91l-4.23-4.22-13.02-13.02h0s-.01-.01-.01-.01l-13.01-13.02-13.02-13.01h0s-.01-.01-.01-.01l-13.01,13.02-13.02,13.02h-.01s-2.19,2.21-2.19,2.21c-5.13-3.47-9.9-7.42-14.26-11.78l3.45-3.45,9.85-9.86,3.16-3.15h0s.01-.01.01-.01l13.02-13.02,13.02-13.02,26.04,26.04,13.02,13.03,13.01,13.01h.01s11.33,11.34,11.33,11.34Z"/></svg>
+      </div>
+    </div>
+
+    <div class="search-panel">
+      <div class="search-head-row">
+        <h1 class="search-heading">Search<br>Cabins</h1>
+        <div class="loc-icon">
+          <svg viewBox="0 0 24 24"><polygon points="3,11 22,2 13,21 11,13" fill="white"/></svg>
+        </div>
+      </div>
+      <p class="search-desc">24 Cabins across the US. Search your area to find the perfect romantic mountain escape.</p>
+
+      <div class="form-g">
+        <label class="flabel">Location</label>
+        <select class="finput finput-select">
+          <option value="">All Locations</option>
+          <option>Bozeman, Montana</option>
+          <option>Aspen, Colorado</option>
+          <option>Gatlinburg, Tennessee</option>
+          <option>Stowe, Vermont</option>
+          <option>Lake Tahoe, California</option>
+          <option>Blue Ridge, Georgia</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-g">
+          <label class="flabel">Arrival</label>
+          <input class="finput" type="text" placeholder="16 October" id="inp-arrival" readonly onclick="pickDate('arrival')">
+        </div>
+        <div class="form-g">
+          <label class="flabel">Departure</label>
+          <input class="finput" type="text" placeholder="17 October" id="inp-depart" readonly onclick="pickDate('depart')">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-g">
+          <label class="flabel">Star Rating</label>
+          <div class="counter-wrap">
+            <button class="cbtn" onclick="cnt('rating',-1)">−</button>
+            <span class="cval" id="v-rating">5</span>
+            <button class="cbtn" onclick="cnt('rating',1)">+</button>
+          </div>
+        </div>
+        <div class="form-g">
+          <label class="flabel">Guests</label>
+          <div class="counter-wrap">
+            <button class="cbtn" onclick="cnt('guests',-1)">−</button>
+            <span class="cval" id="v-guests">2</span>
+            <button class="cbtn" onclick="cnt('guests',1)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="search-submit" onclick="goTo('results')">Search</button>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" onclick="goTo('search')"><div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><span class="nav-label">Search</span></button>
+      <button class="nav-btn" onclick="goTo('results')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div><span class="nav-label">Cabins</span></button>
+      <button class="nav-btn" onclick="goTo('reviews')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span class="nav-label">Reviews</span></button>
+      <button class="nav-btn" onclick="goTo('profile')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="nav-label">Profile</span></button>
+    </nav>
+
+    <!-- Calendar Overlay -->
+    <div class="cal-overlay" id="cal-modal" onclick="if(event.target===this)closeCal()">
+      <div class="cal-sheet">
+        <div class="mhandle"></div>
+        <div class="cal-mode-lbl" id="cal-mode-lbl">Select Arrival</div>
+        <div class="cal-sel-row">
+          <div class="cal-sel-item active" id="cal-sel-arr" onclick="switchCalMode('arrival')">
+            <div class="cal-sel-label">Arrival</div>
+            <div class="cal-sel-value" id="cal-arr-val">—</div>
+          </div>
+          <div class="cal-sel-item" id="cal-sel-dep" onclick="switchCalMode('depart')">
+            <div class="cal-sel-label">Departure</div>
+            <div class="cal-sel-value" id="cal-dep-val">—</div>
+          </div>
+        </div>
+        <div class="cal-nav-row">
+          <button class="cal-nav-btn" onclick="calNav(-1)">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+          </button>
+          <div class="cal-month-lbl" id="cal-month-lbl"></div>
+          <button class="cal-nav-btn" onclick="calNav(1)">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg>
+          </button>
+        </div>
+        <div class="cal-grid">
+          <div class="cal-wd">Su</div><div class="cal-wd">Mo</div><div class="cal-wd">Tu</div>
+          <div class="cal-wd">We</div><div class="cal-wd">Th</div><div class="cal-wd">Fr</div>
+          <div class="cal-wd">Sa</div>
+        </div>
+        <div class="cal-grid" id="cal-grid" style="row-gap:2px;"></div>
+        <button class="cal-done-btn" onclick="closeCal()">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN 2 · RESULTS
+  ══════════════════════════════ -->
+  <div class="screen" id="screen-results">
+    <div class="results-hdr">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div><div class="results-title">24 Cabins Found</div><div class="results-sub">Montana · Colorado · Tennessee · Vermont</div></div>
+        <button style="background:#242424;border:none;border-radius:11px;padding:10px 13px;cursor:pointer;" onclick="openFilt()">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--tan)" fill="none" stroke-width="1.5"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="filter-row">
+        <button class="fchip active" onclick="chip(this)">All</button>
+        <button class="fchip" onclick="chip(this)">Mountains</button>
+        <button class="fchip" onclick="chip(this)">Lakeside</button>
+        <button class="fchip" onclick="chip(this)">Forest</button>
+        <button class="fchip" onclick="chip(this)">Hot Tub</button>
+      </div>
+    </div>
+
+    <div class="results-list">
+
+      <!-- Card 1 -->
+      <div class="ccard" onclick="openDetail(0)" data-tags="mountains" data-amenities="coffee home hiking" data-price="349" data-rating="5">
+        <div class="cimg" style="background-image:linear-gradient(180deg,rgba(15,8,3,.2) 0%,rgba(5,2,0,.65) 100%),url('Romantic Cabin.jpg');">
+          <div class="cimg-fade"></div>
+          <span class="cbadge">Editor's Pick</span>
+          <div class="cprice"><div class="pval">$349</div><div class="pnight">/ night</div></div>
+        </div>
+        <div class="cbody">
+          <div class="cloc">Bozeman, Montana</div>
+          <div class="cname">Romantic Cabin in the Mountains</div>
+          <div class="cmeta">
+            <div class="cstars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="rcount">47</span></div>
+            <div class="camenities">
+              <div class="adot"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg></div>
+              <div class="adot"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+              <div class="adot"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="M12 22V8"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="ccard" onclick="openDetail(1)" data-tags="mountains" data-amenities="tv coffee home" data-price="279" data-rating="5">
+        <div class="cimg" style="background-image:linear-gradient(180deg,rgba(5,12,20,.2) 0%,rgba(2,6,10,.65) 100%),url('Alpine Cabin.jpg');">
+          <div class="cimg-fade"></div>
+          <span class="cbadge">New</span>
+          <div class="cprice"><div class="pval">$279</div><div class="pnight">/ night</div></div>
+        </div>
+        <div class="cbody">
+          <div class="cloc">Aspen, Colorado</div>
+          <div class="cname">Alpine Retreat with Mountain Views</div>
+          <div class="cmeta">
+            <div class="cstars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="rcount">31</span></div>
+            <div class="camenities">
+              <div class="adot"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
+              <div class="adot"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/></svg></div>
+              <div class="adot"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="ccard" onclick="openDetail(2)" data-tags="forest" data-amenities="coffee hiking home" data-price="425" data-rating="5">
+        <div class="cimg" style="background-image:linear-gradient(180deg,rgba(3,12,5,.2) 0%,rgba(1,6,2,.65) 100%),url('Smoky Mountain.jpg');">
+          <div class="cimg-fade"></div>
+          <span class="cbadge">Popular</span>
+          <div class="cprice"><div class="pval">$425</div><div class="pnight">/ night</div></div>
+        </div>
+        <div class="cbody">
+          <div class="cloc">Gatlinburg, Tennessee</div>
+          <div class="cname">Smoky Mountain Log Cabin</div>
+          <div class="cmeta">
+            <div class="cstars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="rcount">89</span></div>
+            <div class="camenities">
+              <div class="adot"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/></svg></div>
+              <div class="adot"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/></svg></div>
+              <div class="adot"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="ccard" onclick="openDetail(3)" data-tags="forest" data-amenities="tv coffee home" data-price="318" data-rating="4">
+        <div class="cimg" style="background-image:linear-gradient(180deg,rgba(18,10,4,.2) 0%,rgba(8,4,1,.65) 100%),url('Fall Foliage.jpg');">
+          <div class="cimg-fade"></div>
+          <div class="cprice"><div class="pval">$318</div><div class="pnight">/ night</div></div>
+        </div>
+        <div class="cbody">
+          <div class="cloc">Stowe, Vermont</div>
+          <div class="cname">Fall Foliage Forest Hideaway</div>
+          <div class="cmeta">
+            <div class="cstars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s e">★</span><span class="rcount">22</span></div>
+            <div class="camenities">
+              <div class="adot"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
+              <div class="adot"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/></svg></div>
+              <div class="adot"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="ccard" onclick="openDetail(4)" data-tags="lakeside" data-amenities="coffee tv hiking" data-price="595" data-rating="5">
+        <div class="cimg" style="background-image:linear-gradient(180deg,rgba(5,12,20,.2) 0%,rgba(2,6,10,.65) 100%),url('Lakefront.jpg');">
+          <div class="cimg-fade"></div>
+          <span class="cbadge">Luxury</span>
+          <div class="cprice"><div class="pval">$595</div><div class="pnight">/ night</div></div>
+        </div>
+        <div class="cbody">
+          <div class="cloc">Lake Tahoe, California</div>
+          <div class="cname">Lakefront Modern Mountain Lodge</div>
+          <div class="cmeta">
+            <div class="cstars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="rcount">64</span></div>
+            <div class="camenities">
+              <div class="adot"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/></svg></div>
+              <div class="adot"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
+              <div class="adot"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="ccard" onclick="openDetail(5)" data-tags="hot-tub forest" data-amenities="hiking coffee tv" data-price="265" data-rating="4">
+        <div class="cimg" style="background-image:linear-gradient(180deg,rgba(3,12,5,.2) 0%,rgba(1,6,2,.65) 100%),url('Creekside.jpg');">
+          <div class="cimg-fade"></div>
+          <div class="cprice"><div class="pval">$265</div><div class="pnight">/ night</div></div>
+        </div>
+        <div class="cbody">
+          <div class="cloc">Blue Ridge, Georgia</div>
+          <div class="cname">Creekside Cabin with Hot Tub</div>
+          <div class="cmeta">
+            <div class="cstars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s e">★</span><span class="rcount">18</span></div>
+            <div class="camenities">
+              <div class="adot"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/></svg></div>
+              <div class="adot"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/></svg></div>
+              <div class="adot"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:6px;"></div>
+    </div>
+
+    <!-- Filter Panel -->
+    <div class="filt-overlay" id="filt-panel" onclick="if(event.target===this)closeFilt()">
+      <div class="filt-sheet">
+        <div class="mhandle"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:22px;color:var(--dark);text-transform:uppercase;letter-spacing:1px;">Filters</div>
+          <button onclick="resetFilt()" style="font-size:11px;font-weight:700;color:var(--amber);background:none;border:none;cursor:pointer;letter-spacing:1px;text-transform:uppercase;">Reset</button>
+        </div>
+        <div class="filt-sec-title">Star Rating</div>
+        <div style="display:flex;gap:8px;margin-bottom:18px;">
+          <button class="filt-chip" onclick="setFiltRating(4,this)">4★ +</button>
+          <button class="filt-chip" onclick="setFiltRating(5,this)">5★ Only</button>
+        </div>
+        <div class="filt-sec-title">Amenities</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+          <button class="am-chip" onclick="toggleAm(this,'coffee')">Coffee</button>
+          <button class="am-chip" onclick="toggleAm(this,'tv')">TV</button>
+          <button class="am-chip" onclick="toggleAm(this,'hiking')">Hiking</button>
+          <button class="am-chip" onclick="toggleAm(this,'home')">Kitchen</button>
+        </div>
+        <div class="filt-sec-title">Price Per Night</div>
+        <div style="display:flex;gap:10px;margin-bottom:22px;">
+          <div style="flex:1"><label class="flabel">Min</label><input class="finput" type="number" placeholder="$0" id="filt-min" style="padding:11px 13px;font-size:13px;"></div>
+          <div style="flex:1"><label class="flabel">Max</label><input class="finput" type="number" placeholder="$999" id="filt-max" style="padding:11px 13px;font-size:13px;"></div>
+        </div>
+        <button class="cal-done-btn" onclick="applyFilt()">Apply Filters</button>
+      </div>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn" onclick="goTo('search')"><div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><span class="nav-label">Search</span></button>
+      <button class="nav-btn active" onclick="goTo('results')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div><span class="nav-label">Cabins</span></button>
+      <button class="nav-btn" onclick="goTo('reviews')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span class="nav-label">Reviews</span></button>
+      <button class="nav-btn" onclick="goTo('profile')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="nav-label">Profile</span></button>
+    </nav>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN 3 · CABIN DETAIL
+  ══════════════════════════════ -->
+  <div class="screen" id="screen-detail">
+    <!-- Hero -->
+    <div class="dhero" id="cabin-hero">
+      <div class="dwatermark">
+        <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 193.89 192.33"><defs><style>.cls-1{fill:#fff;opacity:.8;}</style></defs><path class="cls-1" d="M163.67,137.63l13.6,13.6c10.48-15.49,16.61-34.17,16.61-54.29C193.89,43.4,150.49,0,96.95,0S0,43.4,0,96.95c0,20.11,6.13,38.8,16.62,54.29l41.1-41.1,13.1-13.1,13.02,13.02,13.1,13.08,40.61,40.58,13.62,13.6c5.14-3.48,9.94-7.44,14.32-11.82l-55.44-55.44,13.02-13.02,40.6,40.6ZM109.97,83.93l-13.02,13.02-26.04-26.04-26.21,26.21-13.02,13.02-9.52,9.51c-2.15-7.08-3.31-14.59-3.35-22.37v-.33c0-7.8,1.14-15.32,3.27-22.43,1.92-6.43,4.65-12.51,8.06-18.12,3.26-5.35,7.14-10.29,11.55-14.7s9.26-8.23,14.57-11.47c5.57-3.41,11.6-6.13,17.98-8.06,7.18-2.18,14.81-3.35,22.7-3.35s15.52,1.17,22.7,3.35c6.38,1.93,12.41,4.65,17.98,8.06,5.31,3.24,10.19,7.11,14.56,11.48,4.41,4.41,8.3,9.34,11.55,14.69,7.19,11.82,11.33,25.7,11.33,40.55,0,7.89-1.17,15.52-3.34,22.7l-48.74-48.74-13.02,13.02Z"/><path class="cls-1" d="M134.32,186.41c-6.38,2.67-13.13,4.66-20.11,5.91l-4.23-4.22-13.02-13.02h0s-.01-.01-.01-.01l-13.01-13.02-13.02-13.01h0s-.01-.01-.01-.01l-13.01,13.02-13.02,13.02h-.01s-2.19,2.21-2.19,2.21c-5.13-3.47-9.9-7.42-14.26-11.78l3.45-3.45,9.85-9.86,3.16-3.15h0s.01-.01.01-.01l13.02-13.02,13.02-13.02,26.04,26.04,13.02,13.03,13.01,13.01h.01s11.33,11.34,11.33,11.34Z"/></svg>
+      </div>
+    </div>
+
+    <button class="back-btn" onclick="goTo('results')">
+      <svg viewBox="0 0 24 24" width="18" height="18"><polyline points="15,18 9,12 15,6"/></svg>
+    </button>
+
+    <!-- Panel -->
+    <div class="dpanel">
+      <div class="dscroll">
+        <div class="dcontent">
+          <p class="d-italic">Newly Renovated</p>
+          <div class="d-title-row">
+            <h1 class="d-title">Romantic Cabin<br>in the Mountains</h1>
+            <button class="d-review-btn" onclick="goTo('reviews')">Review</button>
+          </div>
+          <div class="d-stars">
+            <span class="d-star">★</span><span class="d-star">★</span><span class="d-star">★</span><span class="d-star">★</span><span class="d-star">★</span>
+          </div>
+          <div class="d-rev-row">
+            <div class="avstack">
+              <div class="av" style="background-image:url('https://i.pravatar.cc/60?img=3');"></div>
+              <div class="av" style="background-image:url('https://i.pravatar.cc/60?img=8');"></div>
+              <div class="av" style="background-image:url('https://i.pravatar.cc/60?img=12');"></div>
+              <div class="av" style="background-image:url('https://i.pravatar.cc/60?img=17');"></div>
+              <div class="avmore">+43</div>
+            </div>
+            <span class="rcount-text">47 reviews</span>
+          </div>
+          <p class="d-desc">This picturesque Montana cabin has everything you could want. Nestled deep in the Bitterroot mountains with breathtaking fall views, a stone fireplace, and all modern comforts.</p>
+          <span class="read-more" onclick="toast('Full description loaded')">Read More</span>
+
+          <!-- Amenities -->
+          <div class="ambar">
+            <div class="amrow">
+              <button class="ambtn">
+                <div class="amcircle"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"/></svg></div>
+                <span class="amlabel">Info</span>
+              </button>
+              <button class="ambtn">
+                <div class="amcircle"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+                <span class="amlabel">Dining</span>
+              </button>
+              <button class="ambtn">
+                <div class="amcircle"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="M6.5 12h2l1.5 4 2-7 2 7 1.5-4h2"/><path d="M3 19l2-5h14l2 5"/></svg></div>
+                <span class="amlabel">Hiking</span>
+              </button>
+              <button class="ambtn">
+                <div class="amcircle"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.17 6.17l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                <span class="amlabel">Contact</span>
+              </button>
+              <button class="ambtn">
+                <div class="amcircle"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div>
+                <span class="amlabel">Home</span>
+              </button>
+            </div>
+            <button class="choose-btn" onclick="openModal()">Choose Room</button>
+          </div>
+          <div style="height:84px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn" onclick="goTo('search')"><div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><span class="nav-label">Search</span></button>
+      <button class="nav-btn active" onclick="goTo('results')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div><span class="nav-label">Cabins</span></button>
+      <button class="nav-btn" onclick="goTo('reviews')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span class="nav-label">Reviews</span></button>
+      <button class="nav-btn" onclick="goTo('profile')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="nav-label">Profile</span></button>
+    </nav>
+
+    <!-- Booking Modal -->
+    <div class="modal-ov" id="modal" onclick="closeModal(event)">
+      <div class="modal-sheet">
+        <div class="mhandle"></div>
+        <div class="mtit">Choose Your Room</div>
+        <div class="msub-txt">Romantic Cabin in the Mountains · Bozeman, MT</div>
+
+        <div class="room-opt sel" onclick="selRoom(this)">
+          <div class="rimg" style="background:linear-gradient(135deg,#3a2010,#1a0a05);"></div>
+          <div class="rinfo">
+            <div class="rname">King Suite — Fireplace</div>
+            <div class="rbeds">1 King bed · Sleeps 2 · Mountain view</div>
+          </div>
+          <div class="rprice-wrap"><div class="rprice">$349</div><div class="rnight">/ night</div></div>
+        </div>
+
+        <div class="room-opt" onclick="selRoom(this)">
+          <div class="rimg" style="background:linear-gradient(135deg,#2a1a10,#150d05);"></div>
+          <div class="rinfo">
+            <div class="rname">Loft Suite — Panoramic</div>
+            <div class="rbeds">1 Queen bed · Sleeps 4 · Open loft</div>
+          </div>
+          <div class="rprice-wrap"><div class="rprice">$289</div><div class="rnight">/ night</div></div>
+        </div>
+
+        <div class="room-opt" onclick="selRoom(this)">
+          <div class="rimg" style="background:linear-gradient(135deg,#1a1a2a,#0a0a15);"></div>
+          <div class="rinfo">
+            <div class="rname">Cabin Suite — Creek View</div>
+            <div class="rbeds">2 Queen beds · Sleeps 6 · Full kitchen</div>
+          </div>
+          <div class="rprice-wrap"><div class="rprice">$449</div><div class="rnight">/ night</div></div>
+        </div>
+
+        <button class="book-btn" onclick="bookNow()">Book Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN 4 · REVIEWS
+  ══════════════════════════════ -->
+  <div class="screen" id="screen-reviews">
+    <div class="rev-header">
+      <div class="rev-top-row">
+        <button style="width:38px;height:38px;border-radius:50%;background:#242424;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="goTo('detail')">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="white" fill="none" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg>
+        </button>
+        <div class="rev-title">Guest Reviews</div>
+      </div>
+      <div class="rev-meta">
+        <div class="rev-score">4.9</div>
+        <div class="rev-right">
+          <div class="rev-stars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span></div>
+          <div class="rev-cnt">Based on 47 reviews</div>
+        </div>
+      </div>
+      <div class="rating-bars">
+        <div class="rbar-row"><span class="rbar-lbl">5</span><div class="rbar-track"><div class="rbar-fill" style="width:88%"></div></div></div>
+        <div class="rbar-row"><span class="rbar-lbl">4</span><div class="rbar-track"><div class="rbar-fill" style="width:9%"></div></div></div>
+        <div class="rbar-row"><span class="rbar-lbl">3</span><div class="rbar-track"><div class="rbar-fill" style="width:3%"></div></div></div>
+        <div class="rbar-row"><span class="rbar-lbl">2</span><div class="rbar-track"><div class="rbar-fill" style="width:0%"></div></div></div>
+        <div class="rbar-row"><span class="rbar-lbl">1</span><div class="rbar-track"><div class="rbar-fill" style="width:0%"></div></div></div>
+      </div>
+    </div>
+
+    <div class="rev-list">
+      <div class="rcard">
+        <div class="rcard-top">
+          <div class="ravatar" style="background-image:url('https://i.pravatar.cc/60?img=3');"></div>
+          <div><div class="rname">James Mitchell</div><div class="rdate">October 2024</div></div>
+        </div>
+        <div class="rstars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span></div>
+        <p class="rtext">Absolutely incredible experience. The cabin was even more beautiful than the photos. The fireplace was the perfect centrepiece for cosy evenings after hiking. Will be back next autumn without doubt.</p>
+        <div class="rhelpful">Helpful? <span>Yes (12)</span></div>
+      </div>
+
+      <div class="rcard">
+        <div class="rcard-top">
+          <div class="ravatar" style="background-image:url('https://i.pravatar.cc/60?img=9');"></div>
+          <div><div class="rname">Sarah & Tom Deluca</div><div class="rdate">September 2024</div></div>
+        </div>
+        <div class="rstars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span></div>
+        <p class="rtext">We celebrated our anniversary here and it exceeded every expectation. The mountain views at sunrise are something we'll never forget. Mid Mountain went above and beyond throughout.</p>
+        <div class="rhelpful">Helpful? <span>Yes (8)</span></div>
+      </div>
+
+      <div class="rcard">
+        <div class="rcard-top">
+          <div class="ravatar" style="background-image:url('https://i.pravatar.cc/60?img=12');"></div>
+          <div><div class="rname">Marcus Williams</div><div class="rdate">August 2024</div></div>
+        </div>
+        <div class="rstars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span></div>
+        <p class="rtext">The perfect digital detox. No signal, just mountains. The cabin is immaculate — renovated but retains all the rustic charm. Kitchen is fully stocked and the hot tub under the stars is unforgettable.</p>
+        <div class="rhelpful">Helpful? <span>Yes (21)</span></div>
+      </div>
+
+      <div class="rcard">
+        <div class="rcard-top">
+          <div class="ravatar" style="background-image:url('https://i.pravatar.cc/60?img=25');"></div>
+          <div><div class="rname">Emily Thornton</div><div class="rdate">July 2024</div></div>
+        </div>
+        <div class="rstars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span></div>
+        <p class="rtext">Brought our dog who loved the trails. The steam shower and underfloor heating are a lovely surprise after a cold day in the mountains. Highly recommend the sunrise hike!</p>
+        <div class="rhelpful">Helpful? <span>Yes (6)</span></div>
+      </div>
+
+      <div class="rcard">
+        <div class="rcard-top">
+          <div class="ravatar" style="background-image:url('https://i.pravatar.cc/60?img=33');"></div>
+          <div><div class="rname">David & Priya Chen</div><div class="rdate">June 2024</div></div>
+        </div>
+        <div class="rstars"><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s">★</span><span class="s e">★</span></div>
+        <p class="rtext">Beautiful property in a stunning location. Only minor note was the gravel road up in wet weather — a 4x4 handles it fine. The cabin itself is faultless and host communication was excellent.</p>
+        <div class="rhelpful">Helpful? <span>Yes (4)</span></div>
+      </div>
+      <div style="height:6px;"></div>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn" onclick="goTo('search')"><div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><span class="nav-label">Search</span></button>
+      <button class="nav-btn" onclick="goTo('results')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div><span class="nav-label">Cabins</span></button>
+      <button class="nav-btn active" onclick="goTo('reviews')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span class="nav-label">Reviews</span></button>
+      <button class="nav-btn" onclick="goTo('profile')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="nav-label">Profile</span></button>
+    </nav>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN 5 · PROFILE
+  ══════════════════════════════ -->
+  <div class="screen" id="screen-profile">
+    <div style="position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;">
+
+      <div class="phero">
+        <div class="pavatar" style="background-image:url('https://i.pravatar.cc/80?img=5');"></div>
+        <div class="pname">Alex Morgan</div>
+        <div class="pmember">Member since 2022 · Lodge Insider</div>
+      </div>
+
+      <div class="pstats">
+        <div class="pstat"><div class="sv">7</div><div class="sl">Stays</div></div>
+        <div class="pstat"><div class="sv">4</div><div class="sl">Saved</div></div>
+        <div class="pstat"><div class="sv">12</div><div class="sl">Reviews</div></div>
+      </div>
+
+      <div style="padding:18px 18px 100px;">
+        <div id="upcoming-section" style="display:none;">
+        <div class="psec-title">Upcoming Stay</div>
+        <div class="upcoming-card" id="upcoming-card" onclick="openDetail(0)">
+          <div class="u-img" style="background-image:url('Romantic Cabin.jpg');"></div>
+          <div class="u-info">
+            <div class="u-name">Romantic Cabin — Mountains</div>
+            <div class="u-date">Oct 16 – Oct 20, 2025</div>
+            <div class="u-nights">4 nights · 2 guests · Bozeman, MT</div>
+          </div>
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="rgba(255,255,255,.6)" fill="none" stroke-width="1.5"><polyline points="9,18 15,12 9,6"/></svg>
+        </div>
+        </div>
+
+        <div class="psec-title">Saved Cabins</div>
+        <div class="saved-grid">
+          <div class="scard" style="background-image:url('Alpine Cabin.jpg');" onclick="openDetail(1)">
+            <div class="scard-ov"><div class="scname">Alpine Retreat</div><div class="scloc">Aspen, CO</div></div>
+            <button class="heartbtn"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="scard" style="background-image:url('Smoky Mountain.jpg');" onclick="openDetail(2)">
+            <div class="scard-ov"><div class="scname">Smoky Mountain</div><div class="scloc">Gatlinburg, TN</div></div>
+            <button class="heartbtn"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="scard" style="background-image:url('Fall Foliage.jpg');" onclick="openDetail(3)">
+            <div class="scard-ov"><div class="scname">Fall Foliage Hideaway</div><div class="scloc">Stowe, VT</div></div>
+            <button class="heartbtn"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+          <div class="scard" style="background-image:url('Lakefront.jpg');" onclick="openDetail(4)">
+            <div class="scard-ov"><div class="scname">Lakefront Lodge</div><div class="scloc">Lake Tahoe, CA</div></div>
+            <button class="heartbtn"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+
+        <div class="pmenu">
+          <div class="mitem" onclick="goTo('payment-methods')"><div class="micon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="mtext"><div class="mtitle">Payment Methods</div><div class="msub">Visa ending 4821</div></div><div class="marrow"><svg viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg></div></div>
+          <div class="mitem" onclick="goTo('loyalty')"><div class="micon"><svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg></div><div class="mtext"><div class="mtitle">Loyalty Rewards</div><div class="msub">2,400 points · Gold tier</div></div><div class="marrow"><svg viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg></div></div>
+          <div class="mitem" onclick="goTo('trip-history')"><div class="micon"><svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div><div class="mtext"><div class="mtitle">Trip History</div><div class="msub">7 completed stays</div></div><div class="marrow"><svg viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg></div></div>
+          <div class="mitem" onclick="goTo('settings')"><div class="micon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div><div class="mtext"><div class="mtitle">Settings</div><div class="msub">Notifications, privacy</div></div><div class="marrow"><svg viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="bottom-nav" style="position:absolute;">
+      <button class="nav-btn" onclick="goTo('search')"><div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><span class="nav-label">Search</span></button>
+      <button class="nav-btn" onclick="goTo('results')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div><span class="nav-label">Cabins</span></button>
+      <button class="nav-btn" onclick="goTo('reviews')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span class="nav-label">Reviews</span></button>
+      <button class="nav-btn active" onclick="goTo('profile')"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="nav-label">Profile</span></button>
+    </nav>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN: CHECKOUT
+  ══════════════════════════════ -->
+  <div class="screen" id="screen-checkout">
+    <button class="back-btn" onclick="goTo('detail')"><svg viewBox="0 0 24 24" width="18" height="18"><polyline points="15,18 9,12 15,6"/></svg></button>
+    <div class="screen-hdr">
+      <div class="screen-hdr-title">Guest Details</div>
+      <div class="screen-hdr-sub">One last step before you're all set</div>
+    </div>
+    <div class="screen-scroll">
+      <div class="dark-card" style="margin-bottom:20px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--tan);text-transform:uppercase;margin-bottom:8px;">Your Booking</div>
+        <div id="co-cabin" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:white;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;">Romantic Cabin in the Mountains</div>
+        <div id="co-room" style="font-size:12px;color:#666;">King Suite — Fireplace · $349/night</div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:14px;">
+        <div style="flex:1"><label class="dlabel">First Name</label><input class="dinput" type="text" placeholder="Alex"></div>
+        <div style="flex:1"><label class="dlabel">Last Name</label><input class="dinput" type="text" placeholder="Morgan"></div>
+      </div>
+      <div style="margin-bottom:14px;"><label class="dlabel">Email Address</label><input class="dinput" type="email" placeholder="alex@email.com"></div>
+      <div style="margin-bottom:28px;"><label class="dlabel">Phone Number</label><input class="dinput" type="tel" placeholder="+1 (555) 000-0000"></div>
+      <button class="amber-btn" onclick="goTo('payment')">Continue to Payment</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN: PAYMENT
+  ══════════════════════════════ -->
+  <div class="screen" id="screen-payment">
+    <button class="back-btn" onclick="goTo('checkout')"><svg viewBox="0 0 24 24" width="18" height="18"><polyline points="15,18 9,12 15,6"/></svg></button>
+    <div class="screen-hdr">
+      <div class="screen-hdr-title">Payment</div>
+      <div class="screen-hdr-sub">Review and confirm your booking</div>
+    </div>
+    <div class="screen-scroll">
+      <div class="cc-visual">
+        <div class="cc-chip"></div>
+        <div class="cc-num">•••• •••• •••• 4821</div>
+        <div class="cc-row">
+          <div><div class="cc-lbl">Cardholder</div><div class="cc-val">Alex Morgan</div></div>
+          <div><div class="cc-lbl">Expires</div><div class="cc-val">09/27</div></div>
+          <div style="text-align:right"><div class="cc-lbl">Network</div><div class="cc-val" style="color:var(--tan);">VISA</div></div>
+        </div>
+      </div>
+      <div class="dark-card" style="margin-bottom:20px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--tan);text-transform:uppercase;margin-bottom:12px;">Price Breakdown</div>
+        <div class="price-row"><span class="pr-lbl" id="pay-room-lbl">King Suite (2 nights)</span><span class="pr-val" id="pay-room-val">$698</span></div>
+        <div class="price-row"><span class="pr-lbl">Cleaning fee</span><span class="pr-val">$65</span></div>
+        <div class="price-row"><span class="pr-lbl">Service fee</span><span class="pr-val">$42</span></div>
+        <div class="price-row total"><span class="pr-lbl">Total</span><span class="pr-val" id="pay-total">$805</span></div>
+      </div>
+      <button class="amber-btn" onclick="confirmPayment()">Confirm Booking</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN: PAYMENT METHODS
+  ══════════════════════════════ -->
+  <div class="screen" id="screen-payment-methods">
+    <button class="back-btn" onclick="goTo('profile')"><svg viewBox="0 0 24 24" width="18" height="18"><polyline points="15,18 9,12 15,6"/></svg></button>
+    <div class="screen-hdr">
+      <div class="screen-hdr-title">Payment Methods</div>
+      <div class="screen-hdr-sub">Manage your saved cards</div>
+    </div>
+    <div class="screen-scroll">
+      <div class="cc-visual">
+        <div style="position:absolute;top:14px;right:14px;background:var(--amber);padding:3px 9px;border-radius:10px;font-size:9px;font-weight:700;letter-spacing:1px;color:white;text-transform:uppercase;">Default</div>
+        <div class="cc-chip"></div>
+        <div class="cc-num">•••• •••• •••• 4821</div>
+        <div class="cc-row">
+          <div><div class="cc-lbl">Cardholder</div><div class="cc-val">Alex Morgan</div></div>
+          <div><div class="cc-lbl">Expires</div><div class="cc-val">09/27</div></div>
+          <div style="text-align:right"><div class="cc-lbl">Network</div><div class="cc-val" style="color:var(--tan);">VISA</div></div>
+        </div>
+      </div>
+      <button style="width:100%;padding:14px;background:#1c1c1c;border:1.5px dashed #333;border-radius:14px;color:#555;font-size:12px;font-weight:600;letter-spacing:.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="#555" fill="none" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add New Card
+      </button>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.28);text-transform:uppercase;margin-bottom:12px;">Other Options</div>
+      <div class="dark-card">
+        <div style="display:flex;align-items:center;gap:14px;padding:4px 0 14px;border-bottom:1px solid #252525;">
+          <div style="width:34px;height:34px;background:#242424;border-radius:9px;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="17" height="17" fill="white"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.42c1.27.06 2.15.59 2.9.64 1.08-.22 2.11-.79 3.27-.84 1.44-.07 2.84.58 3.7 1.68-3.29 1.97-2.74 6.37.81 7.59-.42 1.17-.93 2.33-2.68 3.79zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg></div>
+          <div style="flex:1;font-size:14px;color:white;font-weight:500;">Apple Pay</div>
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="#333" fill="none" stroke-width="1.5"><polyline points="9,18 15,12 9,6"/></svg>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 0 4px;">
+          <div style="width:34px;height:34px;background:#242424;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:white;">G</div>
+          <div style="flex:1;font-size:14px;color:white;font-weight:500;">Google Pay</div>
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="#333" fill="none" stroke-width="1.5"><polyline points="9,18 15,12 9,6"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN: LOYALTY
+  ══════════════════════════════ -->
+  <div class="screen" id="screen-loyalty">
+    <button class="back-btn" onclick="goTo('profile')"><svg viewBox="0 0 24 24" width="18" height="18"><polyline points="15,18 9,12 15,6"/></svg></button>
+    <div class="screen-hdr">
+      <div class="screen-hdr-title">Loyalty Rewards</div>
+      <div class="screen-hdr-sub">Gold Member · 2,400 points</div>
+    </div>
+    <div class="screen-scroll">
+      <div class="dark-card" style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:var(--amber);text-transform:uppercase;letter-spacing:1px;">Gold Tier</div>
+          <div style="font-size:11px;color:#555;">Next: <span style="color:var(--tan);">Platinum at 5,000</span></div>
+        </div>
+        <div class="loyalty-bar-track"><div class="loyalty-bar-fill" style="width:48%;"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#555;"><span>0</span><span style="color:var(--tan);font-weight:600;">2,400 pts</span><span>5,000</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+        <div class="dark-card" style="text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;color:white;">2,400</div><div style="font-size:10px;color:#555;letter-spacing:1px;text-transform:uppercase;margin-top:3px;">Points</div></div>
+        <div class="dark-card" style="text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;color:white;">7</div><div style="font-size:10px;color:#555;letter-spacing:1px;text-transform:uppercase;margin-top:3px;">Stays</div></div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.28);text-transform:uppercase;margin-bottom:12px;">Gold Benefits</div>
+      <div class="dark-card">
+        <div class="perk-row"><div class="perk-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div><div><div class="perk-title">Early Check-in</div><div class="perk-sub">From 12pm instead of 3pm</div></div></div>
+        <div class="perk-row"><div class="perk-icon"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg></div><div><div class="perk-title">Welcome Amenity</div><div class="perk-sub">Complimentary on arrival</div></div></div>
+        <div class="perk-row"><div class="perk-icon"><svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg></div><div><div class="perk-title">Double Points</div><div class="perk-sub">On stays of 3+ nights</div></div></div>
+        <div class="perk-row" style="border-bottom:none;"><div class="perk-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12"/></svg></div><div><div class="perk-title">Priority Support</div><div class="perk-sub">Dedicated concierge line</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN: TRIP HISTORY
+  ══════════════════════════════ -->
+  <div class="screen" id="screen-trip-history">
+    <button class="back-btn" onclick="goTo('profile')"><svg viewBox="0 0 24 24" width="18" height="18"><polyline points="15,18 9,12 15,6"/></svg></button>
+    <div class="screen-hdr">
+      <div class="screen-hdr-title">Trip History</div>
+      <div class="screen-hdr-sub">7 completed stays</div>
+    </div>
+    <div class="screen-scroll">
+      <div class="hist-card"><div class="hist-img" style="background-image:url('Romantic Cabin.jpg');"></div><div><div class="hist-name">Romantic Cabin, Montana</div><div class="hist-dates">Oct 16–20, 2024 · 4 nights</div><div class="hist-badge">★ 5.0</div></div></div>
+      <div class="hist-card"><div class="hist-img" style="background-image:url('Alpine Cabin.jpg');"></div><div><div class="hist-name">Alpine Retreat, Colorado</div><div class="hist-dates">Aug 3–6, 2024 · 3 nights</div><div class="hist-badge">★ 5.0</div></div></div>
+      <div class="hist-card"><div class="hist-img" style="background-image:url('Smoky Mountain.jpg');"></div><div><div class="hist-name">Smoky Mountain, Tennessee</div><div class="hist-dates">May 10–15, 2024 · 5 nights</div><div class="hist-badge">★ 4.0</div></div></div>
+      <div class="hist-card"><div class="hist-img" style="background-image:url('Fall Foliage.jpg');"></div><div><div class="hist-name">Fall Foliage Hideaway, Vermont</div><div class="hist-dates">Oct 8–12, 2023 · 4 nights</div><div class="hist-badge">★ 5.0</div></div></div>
+      <div class="hist-card"><div class="hist-img" style="background-image:url('Lakefront.jpg');"></div><div><div class="hist-name">Lakefront Lodge, California</div><div class="hist-dates">Jul 14–17, 2023 · 3 nights</div><div class="hist-badge">★ 5.0</div></div></div>
+      <div class="hist-card"><div class="hist-img" style="background-image:url('Creekside.jpg');"></div><div><div class="hist-name">Creekside Cabin, Georgia</div><div class="hist-dates">Mar 22–24, 2023 · 2 nights</div><div class="hist-badge">★ 5.0</div></div></div>
+      <div class="hist-card"><div class="hist-img" style="background-image:url('Alpine Cabin.jpg');"></div><div><div class="hist-name">Alpine Retreat, Colorado</div><div class="hist-dates">Dec 26–Jan 2, 2022 · 7 nights</div><div class="hist-badge">★ 5.0</div></div></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN: SETTINGS
+  ══════════════════════════════ -->
+  <div class="screen" id="screen-settings">
+    <button class="back-btn" onclick="goTo('profile')"><svg viewBox="0 0 24 24" width="18" height="18"><polyline points="15,18 9,12 15,6"/></svg></button>
+    <div class="screen-hdr">
+      <div class="screen-hdr-title">Settings</div>
+      <div class="screen-hdr-sub">Notifications &amp; privacy</div>
+    </div>
+    <div class="screen-scroll">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.28);text-transform:uppercase;margin-bottom:12px;">Notifications</div>
+      <div class="dark-card" style="margin-bottom:20px;">
+        <div class="tog-row"><div><div class="tog-label">Push Notifications</div><div class="tog-sub">Booking updates and reminders</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+        <div class="tog-row"><div><div class="tog-label">Email Updates</div><div class="tog-sub">Promotions and newsletters</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+        <div class="tog-row" style="border-bottom:none;"><div><div class="tog-label">Stay Reminders</div><div class="tog-sub">48h before your arrival</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.28);text-transform:uppercase;margin-bottom:12px;">Privacy</div>
+      <div class="dark-card" style="margin-bottom:28px;">
+        <div class="tog-row"><div><div class="tog-label">Share Activity</div><div class="tog-sub">Help improve our service</div></div><button class="tog" onclick="this.classList.toggle('on')"></button></div>
+        <div class="tog-row" style="border-bottom:none;"><div><div class="tog-label">Location Services</div><div class="tog-sub">For nearby cabin suggestions</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+      </div>
+      <button style="width:100%;padding:16px;background:#1c1c1c;color:#c44;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:3px;text-transform:uppercase;border:1px solid #2c1414;border-radius:14px;cursor:pointer;">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toastEl"></div>
+
+</div>
+
+<script>
+const SCREENS = ['splash','search','results','detail','reviews','profile','checkout','payment','payment-methods','loyalty','trip-history','settings'];
+let current = 'splash';
+let currentCabin = 0;
+let selectedRoomData = { name: 'King Suite — Fireplace', price: 349 };
+
+const CABINS = [
+  { name: 'Romantic Cabin<br>in the Mountains', modal: 'Romantic Cabin in the Mountains · Bozeman, MT', interior: 'Romantic Cabin Interiro.jpg', exterior: 'Romantic Cabin.jpg' },
+  { name: 'Alpine Retreat<br>with Mountain Views', modal: 'Alpine Retreat with Mountain Views · Aspen, CO', interior: 'Alpine Cabin Interior.jpg', exterior: 'Alpine Cabin.jpg' },
+  { name: 'Smoky Mountain<br>Log Cabin', modal: 'Smoky Mountain Log Cabin · Gatlinburg, TN', interior: 'Smoky Mountain Interior.jpg', exterior: 'Smoky Mountain.jpg' },
+  { name: 'Fall Foliage<br>Forest Hideaway', modal: 'Fall Foliage Forest Hideaway · Stowe, VT', interior: 'Fall Foliage Interior.jpg', exterior: 'Fall Foliage.jpg' },
+  { name: 'Lakefront Modern<br>Mountain Lodge', modal: 'Lakefront Modern Mountain Lodge · Lake Tahoe, CA', interior: 'Lakefront Interior.jpg', exterior: 'Lakefront.jpg' },
+  { name: 'Creekside Cabin<br>with Hot Tub', modal: 'Creekside Cabin with Hot Tub · Blue Ridge, GA', interior: 'Creekside Interior.jpg', exterior: 'Creekside.jpg' },
+];
+
+function openDetail(idx) {
+  currentCabin = idx;
+  const c = CABINS[idx];
+  const hero = document.getElementById('cabin-hero');
+  hero.style.backgroundImage = `linear-gradient(180deg, rgba(0,0,0,.12) 30%, rgba(0,0,0,.82) 100%), url('${c.interior}')`;
+  document.querySelector('.d-title').innerHTML = c.name;
+  document.querySelector('.msub-txt').textContent = c.modal;
+  goTo('detail');
+}
+
+function goTo(name) {
+  if (!SCREENS.includes(name)) return;
+  document.getElementById('screen-'+current).classList.remove('active');
+  document.getElementById('screen-'+name).classList.add('active');
+  current = name;
+}
+
+// Counters
+const vals = { rating: 5, guests: 2 };
+function cnt(k, d) {
+  const min = 1, max = k === 'rating' ? 5 : 10;
+  vals[k] = Math.max(min, Math.min(max, vals[k]+d));
+  document.getElementById('v-'+k).textContent = vals[k];
+}
+
+// Filter chips
+function chip(el) {
+  document.querySelectorAll('#screen-results .fchip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  filterCards();
+}
+
+// Advanced filter state
+let filtRating = 0;
+let filtAmenities = [];
+
+function openFilt() { document.getElementById('filt-panel').classList.add('open'); }
+function closeFilt() { document.getElementById('filt-panel').classList.remove('open'); }
+
+function setFiltRating(n, el) {
+  document.querySelectorAll('.filt-chip').forEach(c => c.classList.remove('active'));
+  filtRating = (filtRating === n) ? 0 : n;
+  if (filtRating) el.classList.add('active');
+}
+
+function toggleAm(el, am) {
+  el.classList.toggle('active');
+  if (el.classList.contains('active')) { if (!filtAmenities.includes(am)) filtAmenities.push(am); }
+  else { filtAmenities = filtAmenities.filter(a => a !== am); }
+}
+
+function resetFilt() {
+  filtRating = 0; filtAmenities = [];
+  document.querySelectorAll('.filt-chip, .am-chip').forEach(el => el.classList.remove('active'));
+  document.getElementById('filt-min').value = '';
+  document.getElementById('filt-max').value = '';
+  filterCards();
+}
+
+function applyFilt() { closeFilt(); filterCards(); }
+
+function filterCards() {
+  const chipEl = document.querySelector('#screen-results .fchip.active');
+  const chipTag = chipEl ? chipEl.textContent.trim().toLowerCase().replace(/\s+/g, '-') : 'all';
+  const minP = parseInt(document.getElementById('filt-min').value) || 0;
+  const maxP = parseInt(document.getElementById('filt-max').value) || 9999;
+  document.querySelectorAll('.ccard').forEach(card => {
+    const tags = card.dataset.tags || '';
+    const ams = card.dataset.amenities || '';
+    const price = parseInt(card.dataset.price || 9999);
+    const rating = parseInt(card.dataset.rating || 5);
+    const tagOk = chipTag === 'all' || tags.includes(chipTag);
+    const amOk = filtAmenities.length === 0 || filtAmenities.every(a => ams.includes(a));
+    const priceOk = price >= minP && price <= maxP;
+    const ratingOk = filtRating === 0 || rating >= filtRating;
+    card.style.display = (tagOk && amOk && priceOk && ratingOk) ? '' : 'none';
+  });
+}
+
+// Calendar
+const MTHS = ['January','February','March','April','May','June',
+              'July','August','September','October','November','December'];
+const calS = { mode:'arrival', arr:null, dep:null, y:0, m:0 };
+
+function pickDate(type) {
+  calS.mode = type;
+  const today = new Date();
+  calS.y = calS.arr ? calS.arr.getFullYear() : today.getFullYear();
+  calS.m = calS.arr ? calS.arr.getMonth() : today.getMonth();
+  _calRender();
+  document.getElementById('cal-modal').classList.add('open');
+}
+
+function switchCalMode(type) {
+  calS.mode = type;
+  _calRender();
+}
+
+function closeCal() { document.getElementById('cal-modal').classList.remove('open'); }
+
+function calNav(d) {
+  calS.m += d;
+  if (calS.m < 0) { calS.m = 11; calS.y--; }
+  if (calS.m > 11) { calS.m = 0; calS.y++; }
+  _calRender();
+}
+
+function _calFmt(d) {
+  return d ? d.toLocaleString('en-GB', {day:'numeric', month:'short'}) : '—';
+}
+
+function _calRender() {
+  document.getElementById('cal-month-lbl').textContent = MTHS[calS.m] + ' ' + calS.y;
+  document.getElementById('cal-mode-lbl').textContent = calS.mode === 'arrival' ? 'Select Arrival' : 'Select Departure';
+  document.getElementById('cal-sel-arr').classList.toggle('active', calS.mode === 'arrival');
+  document.getElementById('cal-sel-dep').classList.toggle('active', calS.mode === 'depart');
+  document.getElementById('cal-arr-val').textContent = _calFmt(calS.arr);
+  document.getElementById('cal-dep-val').textContent = _calFmt(calS.dep);
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const startDow = new Date(calS.y, calS.m, 1).getDay();
+  const daysInMonth = new Date(calS.y, calS.m + 1, 0).getDate();
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+
+  for (let i = 0; i < startDow; i++) {
+    const el = document.createElement('div'); el.className = 'cal-d empty'; grid.appendChild(el);
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(calS.y, calS.m, d); date.setHours(0,0,0,0);
+    const btn = document.createElement('button'); btn.textContent = d; btn.className = 'cal-d';
+    const isPast = date < today;
+    const isToday = date.getTime() === today.getTime();
+    const isArr = calS.arr && date.getTime() === calS.arr.getTime();
+    const isDep = calS.dep && date.getTime() === calS.dep.getTime();
+    const inRange = calS.arr && calS.dep && date > calS.arr && date < calS.dep;
+    if (isPast) { btn.classList.add('past'); btn.disabled = true; }
+    if (isToday) btn.classList.add('today');
+    if (inRange) btn.classList.add('in-range');
+    if (isArr && calS.dep) btn.classList.add('range-start');
+    if (isDep && calS.arr) btn.classList.add('range-end');
+    if (isArr || isDep) btn.classList.add('sel');
+    if (!isPast) btn.onclick = () => _calSelect(date);
+    grid.appendChild(btn);
+  }
+}
+
+function _calSelect(date) {
+  const fmt = d => d.toLocaleString('en-GB', {day:'numeric', month:'long'});
+  if (calS.mode === 'arrival') {
+    calS.arr = date;
+    if (calS.dep && calS.dep <= date) calS.dep = null;
+    document.getElementById('inp-arrival').value = fmt(date);
+    document.getElementById('inp-depart').value = calS.dep ? fmt(calS.dep) : '';
+    calS.mode = 'depart';
+    _calRender();
+  } else {
+    if (calS.arr && date <= calS.arr) { calS.dep = calS.arr; calS.arr = date; }
+    else { calS.dep = date; }
+    document.getElementById('inp-arrival').value = fmt(calS.arr);
+    document.getElementById('inp-depart').value = fmt(calS.dep);
+    _calRender();
+    setTimeout(closeCal, 420);
+  }
+}
+
+// Booking modal
+function openModal() { document.getElementById('modal').classList.add('open'); }
+function closeModal(e) { if(e.target===document.getElementById('modal')) document.getElementById('modal').classList.remove('open'); }
+function selRoom(el) {
+  document.querySelectorAll('.room-opt').forEach(r => r.classList.remove('sel'));
+  el.classList.add('sel');
+  selectedRoomData.name = el.querySelector('.rname').textContent;
+  selectedRoomData.price = parseInt(el.querySelector('.rprice').textContent.replace('$',''));
+}
+function bookNow() {
+  document.getElementById('modal').classList.remove('open');
+  const c = CABINS[currentCabin];
+  document.getElementById('co-cabin').textContent = c.modal.split(' · ')[0];
+  document.getElementById('co-room').textContent = selectedRoomData.name + ' · $' + selectedRoomData.price + '/night';
+  const nights = (calS.arr && calS.dep) ? Math.round((calS.dep - calS.arr) / 86400000) : 2;
+  const roomTotal = selectedRoomData.price * nights;
+  document.getElementById('pay-room-lbl').textContent = selectedRoomData.name + ' (' + nights + ' night' + (nights !== 1 ? 's' : '') + ')';
+  document.getElementById('pay-room-val').textContent = '$' + roomTotal;
+  document.getElementById('pay-total').textContent = '$' + (roomTotal + 65 + 42);
+  goTo('checkout');
+}
+function confirmPayment() {
+  const c = CABINS[currentCabin];
+  const nights = (calS.arr && calS.dep) ? Math.round((calS.dep - calS.arr) / 86400000) : 2;
+  const arrStr = calS.arr ? calS.arr.toLocaleString('en-US',{month:'short',day:'numeric'}) : 'Oct 16';
+  const depStr = calS.dep ? calS.dep.toLocaleString('en-US',{month:'short',day:'numeric'}) : 'Oct 18';
+  const locShort = c.modal.split(' · ')[1] || '';
+  document.getElementById('upcoming-section').style.display = 'block';
+  document.querySelector('.u-img').style.backgroundImage = "url('" + c.exterior + "')";
+  document.querySelector('.u-name').textContent = c.modal.split(' · ')[0];
+  document.querySelector('.u-date').textContent = arrStr + ' – ' + depStr + ', 2025';
+  document.querySelector('.u-nights').textContent = nights + ' night' + (nights !== 1 ? 's' : '') + ' \xb7 ' + vals.guests + ' guest' + (vals.guests !== 1 ? 's' : '') + ' \xb7 ' + locShort;
+  goTo('profile');
+  toast('Booking confirmed! Check your email.');
+}
+
+// Toast
+function toast(msg) {
+  const t = document.getElementById('toastEl');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+// Live clock
+(function tick() {
+  const n = new Date();
+  document.getElementById('clock').textContent =
+    String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+  setTimeout(tick, 30000);
+})();
+</script>
+</body>
+</html>
